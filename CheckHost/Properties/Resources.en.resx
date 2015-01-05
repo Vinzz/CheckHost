@@ -139,16 +139,16 @@
     <value>Result</value>
   </data>
   <data name="Connected" xml:space="preserve">
-    <value>Connexion to {0} OK since {1}</value>
+    <value>Connection to {0} OK since {1}</value>
   </data>
   <data name="DisConnected" xml:space="preserve">
-    <value>No connexion to {0} since {1}</value>
+    <value>No connection to {0} since {1}</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
   <data name="Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>Exit CheckHost</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="network" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -171,5 +171,8 @@
   </data>
   <data name="WIP" xml:space="preserve">
     <value>Loading...</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>OpenLogFile</value>
   </data>
 </root>

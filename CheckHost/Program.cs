@@ -1,6 +1,7 @@
 ﻿using CheckHost.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -34,6 +35,7 @@ namespace CheckHost
                 // Create a simple tray menu with only one item.
                 trayMenu = new ContextMenu();
                 trayMenu.MenuItems.Add(Resources.Exit, OnExit);
+                trayMenu.MenuItems.Add(Resources.OpenFile, OnOpenFile);
 
                 // Create a tray icon. In this example we use a
                 // standard system icon for simplicity, but you
@@ -60,6 +62,11 @@ namespace CheckHost
             {
                 ProcessExp(ex);
             }
+        }
+
+        private void OnOpenFile(object sender, EventArgs e)
+        {
+            Process.Start(Settings.Default.OutFile);
         }
 
         private void WriteLogHead()
@@ -95,6 +102,8 @@ namespace CheckHost
         {
             try
             {
+                timer.Enabled = false;
+
                 if (Check(Settings.Default.Host))
                 {
                     trayIcon.Icon = Resources.networkOK;
@@ -102,8 +111,8 @@ namespace CheckHost
 
                     TimeDown = 0;
 
-                    // Do not write OK logs too often
-                    if ((TimeUp / Settings.Default.CheckSecondsInterval) % 10 == 0)
+                    // Do not write OK logs too often, like once per hour
+                    if ((TimeUp / Settings.Default.CheckSecondsInterval) % 360 == 0)
                         WriteLogResults(true, TimeUp, TotalTimeUp, TotalTimeDown);
 
                     TimeUp += Settings.Default.CheckSecondsInterval;
@@ -112,7 +121,7 @@ namespace CheckHost
                 else
                 {
                     trayIcon.Icon = Resources.networkK0;
-                    trayIcon.Text = String.Format(Resources.DisConnected, GetTimeString());
+                    trayIcon.Text = String.Format(Resources.DisConnected, Settings.Default.Host, GetTimeString());
 
                     TimeUp = 0;
 
@@ -125,6 +134,10 @@ namespace CheckHost
             catch (Exception ex)
             {
                 ProcessExp(ex);
+            }
+            finally
+            {
+                timer.Enabled = true;
             }
         }
 

@@ -133,7 +133,7 @@ namespace CheckHost.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pas de connexion à {0} depuis{1}.
+        ///   Looks up a localized string similar to Pas de connexion à {0} depuis {1}.
         /// </summary>
         internal static string DisConnected {
             get {
@@ -151,7 +151,7 @@ namespace CheckHost.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quitter.
+        ///   Looks up a localized string similar to Quitter CheckHost.
         /// </summary>
         internal static string Exit {
             get {
@@ -204,6 +204,15 @@ namespace CheckHost.Properties {
         internal static string OK {
             get {
                 return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ouvrir le fichier de log.
+        /// </summary>
+        internal static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture);
             }
         }
         

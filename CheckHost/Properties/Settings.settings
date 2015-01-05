@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CheckHost.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Host" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">www.google.com</Value>
+    </Setting>
+    <Setting Name="CheckSecondsInterval" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="OutFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CheckHost.csv</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

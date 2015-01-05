@@ -61,6 +61,15 @@ namespace CheckHost.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A propos.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DATE.
         /// </summary>
         internal static string ColumnDate {
@@ -156,6 +165,18 @@ namespace CheckHost.Properties {
         internal static string Exit {
             get {
                 return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CheckHost v.{3}
+        ///Checks DNS resolution to {0} every {1} seconds
+        ///Logs in {2}
+        ///Please check CheckHost.exe.config to modify these settings..
+        /// </summary>
+        internal static string Gossip {
+            get {
+                return ResourceManager.GetString("Gossip", resourceCulture);
             }
         }
         

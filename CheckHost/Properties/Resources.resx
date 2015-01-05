@@ -175,4 +175,13 @@
   <data name="OpenFile" xml:space="preserve">
     <value>Ouvrir le fichier de log</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>A propos</value>
+  </data>
+  <data name="Gossip" xml:space="preserve">
+    <value>CheckHost v.{3}
+Checks DNS resolution to {0} every {1} seconds
+Logs in {2}
+Please check CheckHost.exe.config to modify these settings.</value>
+  </data>
 </root>

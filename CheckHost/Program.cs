@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace CheckHost
@@ -36,6 +37,7 @@ namespace CheckHost
                 trayMenu = new ContextMenu();
                 trayMenu.MenuItems.Add(Resources.Exit, OnExit);
                 trayMenu.MenuItems.Add(Resources.OpenFile, OnOpenFile);
+                trayMenu.MenuItems.Add(Resources.About, OnAbout);
 
                 // Create a tray icon. In this example we use a
                 // standard system icon for simplicity, but you
@@ -62,6 +64,18 @@ namespace CheckHost
             {
                 ProcessExp(ex);
             }
+        }
+
+        private void OnAbout(object sender, EventArgs e)
+        {
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+
+            MessageBox.Show(String.Format(Resources.Gossip, 
+                                          Settings.Default.Host, 
+                                          Settings.Default.CheckSecondsInterval,
+                                          Path.GetFullPath(Settings.Default.OutFile),
+                                          version), "CheckHost, by Vincent Tollu");
         }
 
         private void OnOpenFile(object sender, EventArgs e)
@@ -200,6 +214,6 @@ namespace CheckHost
             }
 
             base.Dispose(isDisposing);
-        }  
+        }
     }
 }

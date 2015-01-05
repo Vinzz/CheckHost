@@ -149,6 +149,10 @@ namespace CheckHost
             }
         }
 
+        /// <summary>
+        /// Loads and hide
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
         {
             try

@@ -90,12 +90,12 @@ namespace CheckHost
 
             if (f.Length < 1)
             {
-                m_log.WriteLine("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\"", Resources.ColumnDate, Resources.ColumnHeure, Resources.ColumnResult, Resources.ColumnPercentUp, Resources.ColumnDay, Resources.ColumnHours, Resources.ColumnMins);
+                m_log.WriteLine("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\";\"{5}\";\"{6}\"", Resources.ColumnDate, Resources.ColumnHeure, Resources.ColumnResult, Resources.ColumnPercentUp, Resources.ColumnDay, Resources.ColumnHours, Resources.ColumnMins);
             }
-            m_log.Write(System.DateTime.Now.ToShortDateString() + "," +
-                             System.DateTime.Now.ToLongTimeString() + ",");
-            m_log.Write(Resources.StartMessage + ",");
-            m_log.WriteLine(0 + "," + 0 + "," + 0 + "," + 0);
+            m_log.Write(System.DateTime.Now.ToShortDateString() + ";" +
+                             System.DateTime.Now.ToLongTimeString() + ";");
+            m_log.Write(Resources.StartMessage + ";");
+            m_log.WriteLine(0 + ";" + 0 + ";" + 0 + ";" + 0);
             m_log.Flush();
         }
 
@@ -104,11 +104,11 @@ namespace CheckHost
             TimeSpan ts = TimeSpan.FromSeconds(TotalTimeUp + TotalTimeDown);
             double percent = ((TotalTimeUp + TotalTimeDown) > 0) ? (double)(100 * TotalTimeUp / (TotalTimeUp + TotalTimeDown)) : 100;
 
-            m_log.Write(System.DateTime.Now.ToShortDateString() + "," +
-                             System.DateTime.Now.ToLongTimeString() + ",");
-            if (IsSuccess == true) m_log.Write(Resources.OK + ",");
-            else m_log.Write(Resources.NoCon + ",");
-            m_log.WriteLine(percent + "," + ts.Days + "," + ts.Hours + "," + ts.Minutes);
+            m_log.Write(System.DateTime.Now.ToShortDateString() + ";" +
+                             System.DateTime.Now.ToLongTimeString() + ";");
+            if (IsSuccess == true) m_log.Write(Resources.OK + ";");
+            else m_log.Write(Resources.NoCon + ";");
+            m_log.WriteLine(percent + ";" + ts.Days + ";" + ts.Hours + ";" + ts.Minutes);
             m_log.Flush();
         }
 

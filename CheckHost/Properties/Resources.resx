@@ -184,4 +184,7 @@ Checks DNS resolution to {0} every {1} seconds
 Logs in {2}
 Please check CheckHost.exe.config to modify these settings.</value>
   </data>
+  <data name="http" xml:space="preserve">
+    <value>réponse http</value>
+  </data>
 </root>

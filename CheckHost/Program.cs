@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -71,8 +72,8 @@ namespace CheckHost
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
-            MessageBox.Show(String.Format(Resources.Gossip, 
-                                          Settings.Default.Host, 
+            MessageBox.Show(String.Format(Resources.Gossip,
+                                          Settings.Default.Host,
                                           Settings.Default.CheckSecondsInterval,
                                           Path.GetFullPath(Settings.Default.OutFile),
                                           version), "CheckHost, by Vincent Tollu");
@@ -90,7 +91,7 @@ namespace CheckHost
 
             if (f.Length < 1)
             {
-                m_log.WriteLine("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\";\"{5}\";\"{6}\"", Resources.ColumnDate, Resources.ColumnHeure, Resources.ColumnResult, Resources.ColumnPercentUp, Resources.ColumnDay, Resources.ColumnHours, Resources.ColumnMins);
+                m_log.WriteLine("\"{0}\";\"{1}\";\"{2}\";\"{3}\";\"{4}\";\"{5}\";\"{6}\";\"{7}\"", Resources.ColumnDate, Resources.ColumnHeure, Resources.ColumnResult, Resources.ColumnPercentUp, Resources.ColumnDay, Resources.ColumnHours, Resources.ColumnMins, Resources.http);
             }
             m_log.Write(System.DateTime.Now.ToShortDateString() + ";" +
                              System.DateTime.Now.ToLongTimeString() + ";");
@@ -99,7 +100,7 @@ namespace CheckHost
             m_log.Flush();
         }
 
-        private void WriteLogResults(bool IsSuccess, long Time, long TotalTimeUp, long TotalTimeDown)
+        private void WriteLogResults(bool IsSuccess, long Time, long TotalTimeUp, long TotalTimeDown, HttpStatusCode response)
         {
             TimeSpan ts = TimeSpan.FromSeconds(TotalTimeUp + TotalTimeDown);
             double percent = ((TotalTimeUp + TotalTimeDown) > 0) ? (double)(100 * TotalTimeUp / (TotalTimeUp + TotalTimeDown)) : 100;
@@ -109,6 +110,7 @@ namespace CheckHost
             if (IsSuccess == true) m_log.Write(Resources.OK + ";");
             else m_log.Write(Resources.NoCon + ";");
             m_log.WriteLine(percent + ";" + ts.Days + ";" + ts.Hours + ";" + ts.Minutes);
+            m_log.WriteLine(";" + response);
             m_log.Flush();
         }
 
@@ -117,8 +119,9 @@ namespace CheckHost
             try
             {
                 timer.Enabled = false;
+                var response = Check(Settings.Default.Host);
 
-                if (Check(Settings.Default.Host))
+                if (response == HttpStatusCode.OK)
                 {
                     trayIcon.Icon = Resources.networkOK;
                     trayIcon.Text = String.Format(Resources.Connected, Settings.Default.Host, GetTimeString());
@@ -127,7 +130,7 @@ namespace CheckHost
 
                     // Do not write OK logs too often, like once per hour
                     if ((TimeUp / Settings.Default.CheckSecondsInterval) % 360 == 0)
-                        WriteLogResults(true, TimeUp, TotalTimeUp, TotalTimeDown);
+                        WriteLogResults(true, TimeUp, TotalTimeUp, TotalTimeDown, response);
 
                     TimeUp += Settings.Default.CheckSecondsInterval;
                     TotalTimeUp += Settings.Default.CheckSecondsInterval;
@@ -139,7 +142,7 @@ namespace CheckHost
 
                     TimeUp = 0;
 
-                    WriteLogResults(false, TimeDown, TotalTimeUp, TotalTimeDown);
+                    WriteLogResults(false, TimeDown, TotalTimeUp, TotalTimeDown, response);
 
                     TimeDown += Settings.Default.CheckSecondsInterval;
                     TotalTimeDown += Settings.Default.CheckSecondsInterval;
@@ -163,16 +166,21 @@ namespace CheckHost
             return ts.ToString();
         }
 
-        public bool Check(string stHost)
+        public HttpStatusCode Check(string stHost)
         {
             try
             {
-                System.Net.IPHostEntry he = System.Net.Dns.GetHostEntry(stHost);
-                return true;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(stHost);
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return response.StatusCode;
+                  
+                }
             }
             catch (System.Exception)
             {
-                return false;
+                return HttpStatusCode.ServiceUnavailable;
             }
         }
 

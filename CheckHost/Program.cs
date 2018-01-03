@@ -96,7 +96,7 @@ namespace CheckHost
             m_log.Write(System.DateTime.Now.ToShortDateString() + ";" +
                              System.DateTime.Now.ToLongTimeString() + ";");
             m_log.Write(Resources.StartMessage + ";");
-            m_log.WriteLine(0 + ";" + 0 + ";" + 0 + ";" + 0);
+            m_log.WriteLine(0 + ";" + 0 + ";" + 0 + ";" + 0 + ";Startup");
             m_log.Flush();
         }
 
@@ -109,8 +109,8 @@ namespace CheckHost
                              System.DateTime.Now.ToLongTimeString() + ";");
             if (IsSuccess == true) m_log.Write(Resources.OK + ";");
             else m_log.Write(Resources.NoCon + ";");
-            m_log.WriteLine(percent + ";" + ts.Days + ";" + ts.Hours + ";" + ts.Minutes);
-            m_log.WriteLine(";" + response);
+            m_log.WriteLine(percent + ";" + ts.Days + ";" + ts.Hours + ";" + ts.Minutes + ";" + (int)response);
+            m_log.WriteLine();
             m_log.Flush();
         }
 
